@@ -41,12 +41,11 @@
 </body>
 
 <script>
-  let randomNumber = Math.random() * 10;
-
-  const ATTEMPS = 5;
+  let randomNumber = Math.random() * 100;// son numero del 1 al 100 por eso el multiplicador es por *100
+  const ATTEMPS = 10;
   const guesses = document.querySelector('.guesses');
   const lastResult = document.querySelector('.lastResult');
-  const lowOrHi = document.querySelector('lowOrHi');
+  const lowOrHi = document.querySelector('.lowOrHi');// faltaba punto para de finirlo como una clase.
   const guessSubmit = document.querySelector('.guessSubmit');
   const guessField = document.querySelector('.guessField');
 
@@ -56,24 +55,28 @@
   function checkGuess() {
 
     let userGuess = guessField.value;
+
+    console.log(randomNumber);
     if(guessCount === 1) {
       guesses.textContent = 'Número aleatorio anterior: ';
     }
     guesses.textContent += userGuess + ' ';
-
-    if(userGuess === randomNumber) {
+ // validacion in correcta  de de ser guessCount == ATTEMPS
+    if(guessCount == ATTEMPS) {
       lastResult.textContent = '!!!Pérdistes!!!';
-      lastResult.style.backgroundColor = 'black';
-      lowOrHi.textContent = '';
+      lastResult.style.backgroundColor = 'Red'; // color incorrecto
+      // codigo de mas.
       setGameOver();
-    } else if(guessCount === ATTEMPS) {
+      // validacion incorrecta debe ser 
+    } else if(userGuess == Number.parseInt(randomNumber)) {
       lastResult.textContent = 'Felicitaciones! adivinaste el número!';
-      lastResult.style.backgroundColor = 'red';
+      lastResult.style.backgroundColor = 'green'; // color incorrecto
       setGameOver();
     } else {
       lastResult.textContent = 'Incorrecto! ';
-      lastResult.style.backgroundColor = 'green';
+      lastResult.style.backgroundColor = 'black';// color incorrecto
       if(userGuess < randomNumber) {
+        //loworhi no esta declarado de manera correcta no es una clase hace falta el .lowOrHi
         lowOrHi.textContent = 'El número es mayor!';
       } else if(userGuess > randomNumber) {
         lowOrHi.textContent = 'El número es menor!';
@@ -84,7 +87,9 @@
     guessField.value = '';
     guessField.focus();
   }
-  guessSubmit.addeventListener('click', checkGuess);
+  // error 1 la funcion no esta llamada de manera incorrecta falatan parentecis y ()=>, el comando addEventListener esta mal escrito
+  // la funcion esta mal definida el addEventListener de ve de llavar una
+  guessSubmit.addEventListener('click', ()=> checkGuess()); // 
 
   function setGameOver() {
 	  guessField.disabled = true;
@@ -92,13 +97,13 @@
 	  resetButton = document.createElement('button');
 	  resetButton.textContent = 'Comienza un nuevo juego';
 	  document.body.appendChild(resetButton);
-	  resetButton.addeventListener('click', resetGame);
+	  resetButton.addEventListener('click', ()=> resetGame()); // funcion llamada de manera incorreacta.
   }
 
   function resetGame() {
 	  guessCount = 1;
 
-	  const resetParas = document.querySelectorAll('.resultParas p');
+	  const resetParas = document.querySelectorAll('.resultParas');// p esta demas
 	  for(let i = 0; i < resetParas.length; i++) {
 		  resetParas[i].textContent = '';
 	  }
@@ -112,6 +117,7 @@
 	  lastResult.style.backgroundColor = 'white';
 
 	  randomNumber = Math.floor(Math.random()) + 1;
-  }
+    }
+	.
 </script>
 </html>
